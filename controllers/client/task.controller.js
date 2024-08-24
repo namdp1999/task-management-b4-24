@@ -95,7 +95,7 @@ module.exports.changeStatus = async (req, res) => {
   }
 }
 
-// [PATCH] /tasks/create
+// [POST] /tasks/create
 module.exports.create = async (req, res) => {
   try {
     const task = new Task(req.body);
@@ -104,6 +104,25 @@ module.exports.create = async (req, res) => {
     res.json({
       message: "Tạo công việc thành công!",
       task: task
+    });
+  } catch (error) {
+    res.json({
+      message: "Not Found"
+    });
+  }
+}
+
+// [PATCH] /tasks/edit/:id
+module.exports.edit = async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    await Task.updateOne({
+      _id: id
+    }, req.body);
+  
+    res.json({
+      message: "Cập nhật công việc thành công!"
     });
   } catch (error) {
     res.json({
